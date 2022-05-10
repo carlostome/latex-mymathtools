@@ -1,0 +1,509 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mymathtools}
+\RequirePackage{xkeyval}
+
+\define@boolkeys{brack}{math,constructor,type,term}[true]
+\DeclareOptionX<pack>{bracketed}{\setkeys*{brack}{#1}}%
+
+\newif\ifmymathtools@macros
+\newif\ifmymathtools@stixtwo
+\newif\ifmymathtools@amssymb
+\define@choicekey{pack}{macros}[\val\nr]{none,stix2,amssymb}[none]{%
+  \mymathtools@macrostrue
+  \ifcase\nr\relax
+    % do nothing and warn
+    \PackageWarning{mymathtools}{Font unspecified in argument to option macros; using default symbols}
+  \or
+    \mymathtools@stixtwotrue
+  \or
+    \mymathtools@amssymbtrue
+  \fi
+}
+
+\ProcessOptionsX<pack>
+
+\RequirePackage{xparse}
+\RequirePackage{mathtools}% \DeclarePairedDelimiter
+
+% "[Otherwise] TEX will seize [a single letter] and center it on the
+% math axis if there is nothing else inside the \mathop atom"
+\NewDocumentCommand\mymathop{m}{\mathop{\kern\z@#1}}
+
+\ProvideDocumentCommand{\hole}{}{-}
+\ProvideDocumentCommand{\juxtapositionspace}{}{\,}
+
+\DeclareDocumentCommand{\$}{}{\juxtapositionspace}
+
+\let\origDeclarePairedDelimiter\DeclarePairedDelimiter
+\def\@csname{\expandafter\@gobble\string} % see \MH_cs_to_str:N (from mhsetup)
+\DeclareDocumentCommand{\DeclarePairedDelimiter}{mmm}{% like \DeclarePairedDelimiter but with optional argument still given inside group tokens
+  \expandafter\origDeclarePairedDelimiter\csname orig\@csname#1 \endcsname{#2}{#3}
+  \NewDocumentCommand{#1}{G{\hole}}{\csname orig\@csname#1 \endcsname{##1}}
+  % XXX: the above should be equivalent to what actually loops
+  % (surprisingly, \orig\@csname#1 expands to \protect#1 after the
+  % \let declaration)
+  %
+  % \origDeclarePairedDelimiter{#1}{#2}{#3}
+  % \expandafter\let\csname orig\@csname#1 \endcsname#1
+  % \RenewDocumentCommand{#1}{G{\hole}}{\csname orig\@csname#1 \endcsname{##1}}
+}
+
+\ExplSyntaxOn
+\seq_new:N \l_aux_list
+\cs_new_protected:Npn \mymathtools_createlist:nn #1 #2 {%
+  \seq_set_split:Nnn \l_aux_list { , } { #1 }
+  \seq_use:Nn \l_aux_list { #2 }
+}%
+\ExplSyntaxOff
+
+\ExplSyntaxOn
+\def\mymathtools@createlist#1#2{\group_begin: \mymathtools_createlist:nn { #1 } { #2 } \group_end:}
+\ExplSyntaxOff
+
+%%%%%%%%%%%%%%%%%%%
+% General operators
+%%%%%%%%%%%%%%%%%%%
+
+% From the amsopn package documentation: The purpose of `\newmcodes@`
+% is to make punctuation characters such as `*-/:’` act like their
+% normal text versions, i.e. no wrong symbol and/or wrong spacing, for
+% instance in the body of an operator name.
+
+\NewDocumentCommand{\myconstant}{m}{%
+  {\newmcodes@ #1}
+}
+
+\NewDocumentCommand{\myoperator}{sme{_^}g}{%
+  {\newmcodes@ #2}%
+  \IfValueT {#3} {_{#3}}%
+  \IfValueT {#4} {^{#4}}%
+  \IfValueT {#5} {%
+    \IfBooleanTF {#1} {%
+      (\mymathtools@createlist{#5}{,})
+    }{%
+      \juxtapositionspace\mymathtools@createlist{#5}{\juxtapositionspace}
+    }
+  }
+}
+
+\NewDocumentCommand{\myinfix}{m}{%
+  \mathrel{\newmcodes@ #1}
+}
+
+%%%%%%%%%%%%%%%%
+% Math operators
+%%%%%%%%%%%%%%%%
+
+\ProvideDocumentCommand{\mathconstantfont}{}{%
+  \mathfont
+}
+\NewDocumentCommand{\mymathconstant}{m}{%
+  \myconstant{\mathconstantfont{#1}}
+}
+\NewDocumentCommand{\DeclareMathConstant}{mm}{%
+  \DeclareDocumentCommand{#1}{}{%
+    \mymathconstant{#2}
+  }
+}
+
+\ProvideDocumentCommand{\mathfont}{m}{%
+  \operatorfont #1
+}
+\NewDocumentCommand{\mymathoperator}{sm}{%
+  \IfBooleanTF{#1}{%
+    \myoperator*{\mathfont{#2}}
+  }{%
+    \myoperator{\mathfont{#2}}
+  }
+}
+\let\origDeclareMathOperator\DeclareMathOperator
+\RenewDocumentCommand{\DeclareMathOperator}{mm}{%
+  \ifKV@brack@math
+    \DeclareDocumentCommand{#1}{}{%
+      \mymathoperator*{#2}
+    }
+  \else
+    \DeclareDocumentCommand{#1}{}{%
+      \mymathoperator{#2}
+    }
+  \fi
+}
+
+\ProvideDocumentCommand{\mathinfixfont}{}{%
+  \mathfont
+}
+\NewDocumentCommand{\mymathinfix}{m}{%
+  \myinfix{\mathinfixfont{#1}}
+}
+\NewDocumentCommand{\DeclareMathInfix}{mm}{%
+  \DeclareDocumentCommand{#1}{}{%
+    \mymathinfix{#2}
+  }
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% Constructor operators
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\ProvideDocumentCommand{\constructorconstantfont}{}{%
+  \constructorfont
+}
+\NewDocumentCommand{\myconstructorconstant}{m}{%
+  \myconstant{\constructorconstantfont{#1}}
+}
+\NewDocumentCommand{\DeclareConstructorConstant}{mm}{%
+  \DeclareDocumentCommand{#1}{}{%
+    \myconstructorconstant{#2}
+  }
+}
+
+\ProvideDocumentCommand{\constructorfont}{}{%
+  \mathsf
+}
+\NewDocumentCommand{\myconstructoroperator}{sm}{%
+  \IfBooleanTF{#1}{%
+    \myoperator*{\constructorfont{#2}}
+  }{%
+    \myoperator{\constructorfont{#2}}
+  }
+}
+\NewDocumentCommand{\DeclareConstructorOperator}{mm}{%
+  \ifKV@brack@constructor
+    \DeclareDocumentCommand{#1}{}{%
+      \myconstructoroperator*{#2}
+    }
+  \else
+    \DeclareDocumentCommand{#1}{}{%
+      \myconstructoroperator{#2}
+    }
+  \fi
+}
+
+\ProvideDocumentCommand{\constructorinfixfont}{}{%
+  \constructorfont
+}
+\NewDocumentCommand{\myconstructorinfix}{m}{%
+  \myinfix{\constructorinfixfont{#1}}
+}
+\NewDocumentCommand{\DeclareConstructorInfix}{mm}{%
+  \DeclareDocumentCommand{#1}{}{%
+    \myconstructorinfix{#2}
+  }
+}
+
+%%%%%%%%%%%%%%%%
+% Term operators
+%%%%%%%%%%%%%%%%
+
+\ProvideDocumentCommand{\termconstantfont}{}{%
+  \termfont
+}
+\NewDocumentCommand{\mytermconstant}{m}{%
+  \myconstant{\termconstantfont{#1}}
+}
+\NewDocumentCommand{\DeclareTermConstant}{mm}{%
+  \DeclareDocumentCommand{#1}{}{%
+    \mytermconstant{#2}
+  }
+}
+
+\ProvideDocumentCommand{\termfont}{}{%
+  \mathsf
+}
+\NewDocumentCommand{\mytermoperator}{sm}{%
+  \IfBooleanTF{#1}{%
+    \myoperator*{\termfont{#2}}
+  }{%
+    \myoperator{\termfont{#2}}
+  }
+}
+\NewDocumentCommand{\DeclareTermOperator}{mm}{%
+  \ifKV@brack@term
+    \DeclareDocumentCommand{#1}{}{%
+      \mytermoperator*{#2}
+    }
+  \else
+    \DeclareDocumentCommand{#1}{}{%
+      \mytermoperator{#2}
+    }
+  \fi
+}
+
+\ProvideDocumentCommand{\terminfixfont}{}{%
+  \termfont
+}
+\NewDocumentCommand{\myterminfix}{m}{%
+  \myinfix{\terminfixfont{#1}}
+}
+\NewDocumentCommand{\DeclareTermInfix}{mm}{%
+  \DeclareDocumentCommand{#1}{}{%
+    \myterminfix{#2}
+  }
+}
+
+%%%%%%%%%%%%%%%%
+% Type operators
+%%%%%%%%%%%%%%%%
+
+\ProvideDocumentCommand{\typeconstantfont}{}{%
+  \typefont
+}
+\NewDocumentCommand{\mytypeconstant}{m}{%
+  \myconstant{\typeconstantfont{#1}}
+}
+\NewDocumentCommand{\DeclareTypeConstant}{mm}{%
+  \DeclareDocumentCommand{#1}{}{%
+    \mytypeconstant{#2}
+  }
+}
+
+\ProvideDocumentCommand{\typefont}{}{%
+  \mathsf
+}
+\NewDocumentCommand{\mytypeoperator}{sm}{%
+  \IfBooleanTF{#1}{%
+    \myoperator*{\typefont{#2}}
+  }{%
+    \myoperator{\typefont{#2}}
+  }
+}
+\NewDocumentCommand{\DeclareTypeOperator}{mm}{%
+  \ifKV@brack@type
+    \DeclareDocumentCommand{#1}{}{%
+      \mytypeoperator*{#2}
+    }
+  \else
+    \DeclareDocumentCommand{#1}{}{%
+      \mytypeoperator{#2}
+    }
+  \fi
+}
+
+\ProvideDocumentCommand{\typeinfixfont}{}{%
+  \typefont
+}
+\NewDocumentCommand{\mytypeinfix}{m}{%
+  \myinfix{\typeinfixfont{#1}}
+}
+\NewDocumentCommand{\DeclareTypeInfix}{mm}{%
+  \DeclareDocumentCommand{#1}{}{%
+    \mytypeinfix{#2}
+  }
+}
+
+\ifmymathtools@macros
+  \newcommand\mymathtools@missingsymbol[2]{\text{\bf MISSING in #1: #2}}
+
+  % Misc
+
+  \NewDocumentCommand{\coloniff}{}{% see \coloneqq (from mathtools)
+    \vcentcolon\mathrel{\mkern-1.2mu}\Leftrightarrow%
+  }
+
+  \NewDocumentCommand{\Mod}{O{M}}{\mathcal{#1}}
+
+  % Sets
+
+  \providecommand\given{}
+  \DeclarePairedDelimiterX\set[1]\lbrace\rbrace{\def\given{\;\delimsize\vert\;}#1}
+
+  \NewDocumentCommand{\Powerset}{}{\mymathop{\mathcal{P}}}
+
+  \DeclareMathConstant{\Set}{Set}
+  \DeclareMathConstant{\Zero}{0}
+  \DeclareMathConstant{\One}{1}
+  \DeclareMathConstant{\Two}{2}
+
+  \NewDocumentCommand{\Ints}{}{\mathbb{Z}}
+  \NewDocumentCommand{\Nats}{}{\mathbb{N}}
+  \NewDocumentCommand{\Rats}{}{\mathbb{Q}}
+
+  \NewDocumentCommand{\Quot}{mm}{#1/#2}
+  \DeclarePairedDelimiter{\quot}{\lbrack}{\rbrack}
+
+  \NewDocumentCommand{\compl}{m}{\overline{#1}}
+
+  \NewDocumentCommand{\downset}{m}{{\downarrow}#1}
+  \NewDocumentCommand{\upset}{m}{{\uparrow}#1}
+
+  % Tuples
+
+  \DeclarePairedDelimiterX\tuple      [1]     {\lparen}{\rparen}{#1}
+  \NewDocumentCommand     {\pair}     {mm}    {\tuple{#1,#2}}
+  \NewDocumentCommand     {\triple}   {mmm}   {\tuple{#1,#2,#3}}
+  \NewDocumentCommand     {\quadruple}{mmmm}  {\tuple{#1,#2,#3,#4}}
+  \NewDocumentCommand     {\quintuple}{mmmmm} {\tuple{#1,#2,#3,#4,#5}}
+  \NewDocumentCommand     {\sextuple} {mmmmmm}{\tuple{#1,#2,#3,#4,#5,#6}}
+
+  % Source: https://tex.stackexchange.com/questions/1959
+  \NewDocumentCommand{\splitatcommas}{m}{%
+    \begingroup
+      \ifnum\mathcode`,="8000
+      \else
+        \begingroup
+          \lccode`~=`,
+        \lowercase{\endgroup
+        \edef~{%
+          \mathchar\the\mathcode`,
+          \penalty0
+          %\noexpand\hspace{0pt plus 1em}
+        }}
+        \mathcode`,="8000
+      \fi
+      #1%
+    \endgroup
+  }
+
+  \NewDocumentCommand{\btuple}    {m}     {\tuple{\splitatcommas{#1}}}
+  \NewDocumentCommand{\bpair}     {mm}    {\btuple{#1,#2}}
+  \NewDocumentCommand{\btriple}   {mmm}   {\btuple{#1,#2,#3}}
+  \NewDocumentCommand{\bquadruple}{mmmm}  {\btuple{#1,#2,#3,#4}}
+  \NewDocumentCommand{\bquintuple}{mmmmm} {\btuple{#1,#2,#3,#4,#5}}
+  \NewDocumentCommand{\bsextuple} {mmmmmm}{\btuple{#1,#2,#3,#4,#5,#6}}
+
+  % Categories
+
+  \@ifpackageloaded{lazylist}{%
+    \PackageWarningNoLine{macros}{Package `lazylist' loaded (via `agda'?) and redefining `\string\Cat'}
+    \DeclareDocumentCommand%
+  }{%
+    \NewDocumentCommand%
+  }{\Cat}{O{C}}{\mathcal{#1}}
+  \NewDocumentCommand{\Fun}{O{F}}{\mymathop{#1}}
+
+  \DeclareMathOperator{\Obj}{Obj}
+  \DeclareMathOperator{\Hom}{Hom}
+  \DeclareMathOperator{\Iso}{Iso}
+  \DeclareMathOperator{\dom}{dom}
+  \DeclareMathOperator{\cod}{cod}
+  \DeclareMathOperator{\Sub}{Sub}
+
+  \DeclareMathConstant{\CAT}{Cat}
+  \DeclareMathConstant{\SET}{Set}
+  \NewDocumentCommand{\EM}{O{\Cat}O{\Fun[M]}}{#1^{#2}}
+  \NewDocumentCommand{\Kl}{O{\Cat}O{\Fun[M]}}{#1_{#2}}
+  \NewDocumentCommand{\Arrow}{O{\Cat}}{\overrightarrow{#1}}
+  \DeclareMathOperator{\Alg}{Alg}
+  \DeclareMathOperator{\CoAlg}{CoAlg}
+  \NewDocumentCommand{\Comma}{O{X}O{\Fun}}{#1\downarrow #2}
+  \NewDocumentCommand{\Slice}{O{\Cat}O{X}}{#1/#2}
+  \NewDocumentCommand{\Coslice}{O{\Cat}O{X}}{#2/#1}
+  \def\Over{\Slice}
+  \def\Under{\Coslice}
+  \NewDocumentCommand{\Psh}{O{\Cat}}{\widehat{#1}}
+  \NewDocumentCommand{\Sh}{O{\Cat}o}{\operatorname{Sh}(#1\IfValueT{#2}{,#2})}
+  \NewDocumentCommand{\Elts}{O{\Fun}}{\int #1}
+
+  \NewDocumentCommand{\Id}{}{\Fun[\mathfont{Id}]}
+
+  % parallel arrows
+  \NewDocumentCommand{\toto}{}{\rightrightarrows}
+  \NewDocumentCommand{\fromfrom}{}{\leftleftarrows}
+
+  \NewDocumentCommand{\embeds}{}{\hookrightarrow}
+
+  % natural transformations, (2-)cells, 2-morphisms, squares, vertical morphisms
+  \NewDocumentCommand{\natto}{}{\xrightarrow{{\cdot}}{}} % FIXME
+  \NewDocumentCommand{\natfrom}{}{\xleftarrow{{\cdot}}{}} % FIXME
+  \NewDocumentCommand{\natiso}{}{\iso} % FIXME
+  \NewDocumentCommand{\natisoto}{}{\isoto} % FIXME
+  \NewDocumentCommand{\natisofrom}{}{\isofrom} % FIXME
+  \def\natafter{\after}
+  \def\natthen{\then}
+  \def\hafter{\after}
+  \def\hthen{\then}
+  \def\vafter{\after}
+  \def\vthen{\then}
+
+  % pseudonatural transformations
+  \ifmymathtools@stixtwo % \pseudoto, \pseudofrom
+    \NewDocumentCommand{\pseudoto}  {}{\rightsquigarrow}
+    \NewDocumentCommand{\pseudofrom}{}{\leftsquigarrow}
+  \else
+    \ifmymathtools@amssymb
+      \NewDocumentCommand{\pseudoto}  {}{\rightsquigarrow}
+      \NewDocumentCommand{\pseudofrom}{}{\mymathtools@missingsymbol{amssymb}{\textbackslash{}leftsquigarrow}}
+    \else
+      \NewDocumentCommand{\pseudoto}  {}{\mymathtools@missingsymbol{\LaTeX}{\textbackslash{}rightsquigarrow}}
+      \NewDocumentCommand{\pseudofrom}{}{\mymathtools@missingsymbol{\LaTeX}{\textbackslash{}leftsquigarrow}}
+    \fi
+  \fi
+
+  % normal arrows
+  \NewDocumentCommand{\from}{}{\leftarrow}
+
+  \ifmymathtools@stixtwo % \monoto, \monofrom
+    \NewDocumentCommand{\monoto}{}{\rightarrowtail}
+    \NewDocumentCommand{\monofrom}{}{\leftarrowtail}
+  \else
+    \ifmymathtools@amssymb
+      \NewDocumentCommand{\monoto}{}{\rightarrowtail}
+      \NewDocumentCommand{\monofrom}{}{\leftarrowtail}
+    \else
+      \NewDocumentCommand{\monoto}{}{\rightarrowtail} % FIXME
+      \NewDocumentCommand{\monofrom}{}{\leftarrowtail} % FIXME
+    \fi
+  \fi
+
+  \ifmymathtools@stixtwo % \epito, \epifrom
+    \NewDocumentCommand{\epito}{}{\twoheadrightarrow}
+    \NewDocumentCommand{\epifrom}{}{\twoheadleftarrow}
+  \else
+    \ifmymathtools@amssymb
+      \NewDocumentCommand{\epito}{}{\twoheadrightarrow}
+      \NewDocumentCommand{\epifrom}{}{\twoheadleftarrow}
+    \else
+      \NewDocumentCommand{\epito}{}{\twoheadrightarrow} % FIXME
+      \NewDocumentCommand{\epifrom}{}{\twoheadleftarrow} % FIXME
+    \fi
+  \fi
+
+  \NewDocumentCommand{\iso}{}{\cong}
+
+  \ifmymathtools@stixtwo % \isoto, \isofrom
+    \NewDocumentCommand{\isoto}{}{\simrightarrow}
+    \NewDocumentCommand{\isofrom}{}{\simleftarrow}
+  \else
+    \ifmymathtools@amssymb
+      \NewDocumentCommand{\isoto}{}{\overset{\sim}{\rightarrow}}
+      \NewDocumentCommand{\isofrom}{}{\overset{\sim}{\leftarrow}}
+    \else
+      \NewDocumentCommand{\isoto}{}{\stackrel{\sim}{\rightarrow}}
+      \NewDocumentCommand{\isofrom}{}{\stackrel{\sim}{\leftarrow}}
+    \fi
+  \fi
+
+  \NewDocumentCommand{\equ}{}{\simeq}
+  \NewDocumentCommand{\equivto}{}{\isoto} % FIXME
+  \NewDocumentCommand{\equivfrom}{}{\isofrom} % FIXME
+
+  \DeclareMathOperator{\id}{id}
+  \NewDocumentCommand{\semi}{}{\mathbin{;}} % diagrammatic order
+  \NewDocumentCommand{\then}{}{\semi}
+  \NewDocumentCommand{\after}{}{\circ}
+  \NewDocumentCommand{\inv}{m}{#1^{-1}}
+  \NewDocumentCommand{\ladjunct}{m}{\widehat{\phantom{x}}#1} % uncurry
+  \NewDocumentCommand{\radjunct}{m}{#1\widehat{\phantom{x}}} % curry, abstraction
+  \NewDocumentCommand{\op}{m}{#1^{\mathrm{op}}}
+
+  \DeclareMathOperator{\colim}{colim}
+
+  \DeclareMathConstant{\Init}{\Zero}
+  \DeclareMathConstant{\Term}{\One}
+  \DeclareMathConstant{\init}{!}
+  \DeclareMathConstant{\term}{!}
+
+  \DeclareMathOperator{\prj}{\pi}
+  \DeclareMathOperator{\fst}{fst}
+  \DeclareMathOperator{\snd}{snd}
+  \DeclareMathOperator{\thd}{thd}
+  \DeclareMathOperator{\inj}{\iota}
+  \DeclareMathOperator{\inl}{inl}
+  \DeclareMathOperator{\inr}{inr}
+  \DeclarePairedDelimiterX\copair[2]{\lbrack}{\rbrack}{#1,#2}
+
+  \NewDocumentCommand{\pb}{mom}{#1 \times\IfValueT{#2}{_{#2}} #3}
+  \NewDocumentCommand{\po}{mom}{#1 +\IfValueT{#2}{_{#2}} #3}
+
+  \NewDocumentCommand{\res}{oomom}{#3\vert #5} % restriction, 1. presheaf, 2. domain, 3. element, 4. codomain, 5. morphism
+\fi

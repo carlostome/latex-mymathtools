@@ -1,0 +1,630 @@
+\documentclass{article}
+
+\usepackage{amssymb}
+\usepackage[bracketed={term},macros=amssymb]{mymathtools}
+\usepackage{stmaryrd}
+\usepackage{tikz-cd}
+
+\renewcommand\juxtapositionspace{\;}
+\renewcommand\hole{\cdot}
+\def\termfont{\mathbf}
+
+\DeclarePairedDelimiter\interpret\llbracket\rrbracket
+
+\DeclareMathConstant{\e}{e}
+\DeclareMathOperator{\eval}{eval}
+\DeclareMathInfix{\comp}{;}
+
+\DeclareTermConstant{\true}{true}
+\DeclareTermOperator{\app}{app}
+\DeclareTermInfix{\conj}{\wedge}
+
+\DeclareTypeConstant{\Bool}{Bool}
+\DeclareTypeOperator{\T}{T}
+\DeclareTypeInfix{\Sum}{+}
+
+\DeclareConstructorConstant{\tt}{tt}
+\DeclareConstructorOperator{\return}{return}
+\DeclareConstructorInfix{\cons}{\dblcolon}
+
+\begin{document}
+\title{\texttt{mymathtools} Sample Document}
+\author{}
+\date{}
+
+\maketitle
+
+\begin{verbatim*}
+\usepackage{amssymb}
+\usepackage[bracketed={term},macros=amssymb]{mymathtools}
+\usepackage{stmaryrd}
+\usepackage{tikz-cd}
+
+\renewcommand\juxtapositionspace{\;}
+\end{verbatim*}
+
+\section{Prefix operators}
+
+\begin{verbatim*}
+\myoperator{op1}{x,y}\quad
+\myoperator{op2}(x,y)\quad
+\myoperator*{op3}{x,y}\quad
+\mymathoperator{op4}{x,y}\quad
+\mymathoperator{op5}(x,y)\quad
+\mymathoperator*{op6}{x,y}
+\end{verbatim*}
+
+\[
+  \myoperator{op1}{x,y}      \quad
+  \myoperator{op2}(x,y)      \quad
+  \myoperator*{op3}{x,y}     \quad
+  \mymathoperator{op4}{x,y}  \quad
+  \mymathoperator{op5}(x,y)  \quad
+  \mymathoperator*{op6}{x,y}
+\]
+
+\section{Bracketed operators}
+
+\begin{verbatim*}
+\renewcommand\hole{\cdot}
+
+\DeclarePairedDelimiter\interpret\lvert\rvert
+\end{verbatim*}
+
+\begin{verbatim*}
+\[\interpret{\boxed{1 + 2}} = \interpret{3}\]
+\end{verbatim*}
+%
+\[\interpret{\boxed{1 + 2}} = \interpret{3}\]
+
+\begin{verbatim*}
+\[\begin{tikzcd}E \rar{\interpret} & N\end{tikzcd}\]
+\end{verbatim*}
+%
+\[\begin{tikzcd}E \rar{\interpret} & N\end{tikzcd}\]
+
+\section{Math operators}
+
+\begin{verbatim*}
+\DeclareSymbolFont{operators}{OT1}{cmr}{m}{n}
+\DeclareSymbolFontAlphabet{\mathfont}{operators}
+
+\DeclareMathConstant{\e}{e}
+\DeclareMathOperator{\eval}{eval}
+\DeclareMathInfix{\comp}{;}
+\end{verbatim*}
+
+\begin{verbatim*}
+\[
+\mathfont{D} f\quad
+\mathop{D} f\quad
+\mymathop{D} f
+\]
+\end{verbatim*}
+%
+\[
+  \mathfont{D} f \quad
+  \mathop{D} f \quad
+  \mymathop{D} f
+\]
+
+\begin{verbatim*}
+\[
+\eval\quad
+\eval{x}\quad
+\eval{x,\e}\quad
+\eval(x,\e)\quad
+\eval{(x,\e)}\quad
+\eval{{(x,\e)},(\eval{y,z})}
+\]
+\end{verbatim*}
+%
+\[
+  \eval           \quad
+  \eval{x}        \quad
+  \eval{x,\e}     \quad
+  \eval(x,\e)     \quad
+  \eval{(x,\e)} \quad
+  \eval{{(x,\e)},(\eval{y,z})}
+\]
+
+\begin{verbatim*}
+\[
+\eval \circ \eval\quad
+f \comp g
+\]
+\end{verbatim*}
+%
+\[
+  \eval \circ \eval\quad
+  f \comp g
+\]
+
+\begin{verbatim*}
+\[
+\eval^{\tau_1\times\tau_2}{x}\quad
+\eval_{\Gamma_1,\Gamma_2}{x}\quad
+\eval^\tau_\Gamma{x}\quad
+\eval_\Gamma^\tau{x}
+\]
+\end{verbatim*}
+%
+\[
+  \eval^{\tau_1 \times \tau_2}{x} \quad
+  \eval_{\Gamma_1, \Gamma_2}{x}   \quad
+  \eval^\tau_\Gamma{x}            \quad
+  \eval_\Gamma^\tau{x}
+\]
+
+\section{Constructor operators}
+
+\begin{verbatim*}
+\def\constructorfont{\mathsf}
+
+\DeclareConstructorConstant{\tt}{tt}
+\DeclareConstructorOperator{\return}{return}
+\DeclareConstructorInfix{\cons}{\dblcolon}
+\end{verbatim*}
+
+\begin{verbatim*}
+\[
+\return\quad
+\return{t}\quad
+\return{t,\tt}\quad
+\return(t,\tt)\quad
+\return{{(t,\tt)}}\quad
+\return{(t,\tt),(\return{u,v})}
+\]
+\end{verbatim*}
+%
+\[
+  \return            \quad
+  \return{t}         \quad
+  \return{t,\tt}     \quad
+  \return(t,\tt)     \quad
+  \return{{(t,\tt)}} \quad
+  \return{(t,\tt),(\return{u,v})}
+\]
+
+\begin{verbatim*}
+\[
+\return^{A_1\times A_2}{t}\quad
+\return_{B_1\times B_2}{t}\quad
+\return^A_B{t}\quad
+\return_B^A{t}
+\]
+\end{verbatim*}
+%
+\[
+  \return^{A_1 \times A_2}{t} \quad
+  \return_{B_1 \times B_2}{t} \quad
+  \return^A_B{t}              \quad
+  \return_B^A{t}
+\]
+
+\begin{verbatim*}
+\[
+\return \circ \return\quad
+x \cons xs
+\]
+\end{verbatim*}
+%
+\[
+  \return \circ \return\quad
+  x \cons xs
+\]
+
+\section{Type operators}
+
+\begin{verbatim*}
+\def\typefont{\mathsf}
+
+\DeclareTypeConstant{\Bool}{Bool}
+\DeclareTypeOperator{\T}{T}
+\DeclareTypeInfix{\Sum}{+}
+\end{verbatim*}
+
+\begin{verbatim*}
+\[
+\T\quad
+\T{A}\quad
+\T{A,\Bool}\quad
+\T(A,\Bool)\quad
+\T{{(A,\Bool)}}\quad
+\T{{(A,\Bool)},(\T{(B,C)})}
+\]
+\end{verbatim*}
+%
+\[
+  \T              \quad
+  \T{A}           \quad
+  \T{A,\Bool}     \quad
+  \T(A,\Bool)     \quad
+  \T{{(A,\Bool)}} \quad
+  \T{{(A,\Bool)},(\T{(B,C)})}
+\]
+
+\begin{verbatim*}
+\[
+\T^{A_1\times A_2}{C}\quad
+\T_{B_1\times B_2}{C}\quad
+\T^A_B{C}\quad
+\T_B^A{C}
+\]
+\end{verbatim*}
+%
+\[
+  \T^{A_1 \times A_2}{C} \quad
+  \T_{B_1 \times B_2}{C} \quad
+  \T^A_B{C}              \quad
+  \T_B^A{C}
+\]
+
+\begin{verbatim*}
+\[
+\T \circ \T\quad
+\T \Sum \Bool
+\]
+\end{verbatim*}
+%
+\[
+  \T \circ \T\quad
+  \T \Sum \Bool
+\]
+
+\section{Term operators}
+
+\begin{verbatim*}
+\def\termfont{\mathbf}
+
+\DeclareTermConstant{\true}{true}
+\DeclareTermOperator{\app}{app}
+\DeclareTermInfix{\conj}{\wedge}
+\end{verbatim*}
+
+\begin{verbatim*}
+\[
+\app\quad
+\app{t}\quad
+\app{t,\true}\quad
+\app(t,\true)\quad
+\app{(t,\true)}\quad
+\app{(t,\true),(\app{u,v})}
+\]
+\end{verbatim*}
+%
+\[
+  \app              \quad
+  \app{t}           \quad
+  \app{t,\true}     \quad
+  \app(t,\true)     \quad
+  \app{(t,\true)} \quad
+  \app{(t,\true),(\app{u,v})}
+\]
+
+\begin{verbatim*}
+\[
+\app^{A_1\times A_2}{t}\quad
+\app_{B_1\times B_2}{t}\quad
+\app^A_B{t}\quad
+\app_B^A{t}
+\]
+\end{verbatim*}
+%
+\[
+  \app^{A_1 \times A_2}{t} \quad
+  \app_{B_1 \times B_2}{t} \quad
+  \app^A_B{t}              \quad
+  \app_B^A{t}
+\]
+
+\begin{verbatim*}
+\[
+\app \circ \app\quad
+x \conj y
+\]
+\end{verbatim*}
+%
+\[
+  \app \circ \app\quad
+  x \conj y
+\]
+
+\begin{verbatim*}
+\[
+f a b\quad
+f\$a\$b
+\]
+\end{verbatim*}
+%
+\[
+  f a b \quad
+  f\$a\$b
+\]
+
+\section{Misc (option \texttt{macros})}
+
+\begin{verbatim*}
+\[
+x\mathrel{R}y\coloniff\varphi(x,y)\quad
+\Mod[M]\vDash T
+\]
+\end{verbatim*}
+%
+\[
+  x \mathrel{R} y \coloniff \varphi(x,y) \quad
+  \Mod[M] \vDash T
+\]
+
+\section{Sets (option \texttt{macros})}
+
+\begin{verbatim*}
+\[
+\set{1,2,3}\quad
+\set{x\in X\given\phi(x)}
+\]
+\end{verbatim*}
+%
+\[
+  \set{ 1, 2, 3 } \quad
+  \set{ x \in X \given \phi(x) }
+\]
+
+\begin{verbatim*}
+\[
+\Zero =\set{}\quad
+\One =\set{\Zero}\quad
+\Two =\set{\Zero,\One}\quad
+\Powerset(X)=\set{Y\subseteq X}\quad
+\Nats =\set{\Zero,\One,\Two,\ldots}\quad
+\Ints =\Quot{(\Two\times\Nats)}{{\sim}}\quad
+\Rats =\Quot{(\Ints\times\Ints\setminus\set{0})}{{\sim}}
+\]
+\end{verbatim*}
+%
+\[
+  \Zero        = \set{ } \quad
+  \One         = \set{ \Zero } \quad
+  \Two         = \set{ \Zero, \One } \quad
+  \Powerset(X) = \set{ Y \subseteq X } \quad
+  \Nats        = \set{ \Zero, \One, \Two,\ldots } \quad
+  \Ints        = \Quot{(\Two  \times \Nats)}{{\sim}} \quad
+  \Rats        = \Quot{(\Ints \times \Ints \setminus \set{ 0 })}{{\sim}}
+\]
+
+\begin{verbatim*}
+\[
+\begin{tikzcd}
+X\rar{\quot}&\Quot{X}{{\sim}}
+ =\set{Y\in\Powerset(X)\given\exists y.\,y\in Y\land\forall x.\,x\in Y\iff x\sim y}
+\end{tikzcd}
+\]
+\end{verbatim*}
+%
+\[
+  \begin{tikzcd}
+    X \rar{\quot} & \Quot{X}{{\sim}}
+     = \set{ Y \in \Powerset(X) \given \exists y.\,y \in Y \land \forall x.\,x \in Y \iff x \sim y }
+  \end{tikzcd}
+\]
+
+\begin{verbatim*}
+\[\compl{X}_{A}=\set{a\in A\given a\not\in X}\]
+\end{verbatim*}
+%
+\[\compl{X}_{A} = \set{ a \in A \given a \not\in X }\]
+
+\begin{verbatim*}
+\[
+\downset{a}=\set{b\in A\given b\leq a}\quad
+\upset{a}=\set{b\in A\given b\geq a}
+\]
+\end{verbatim*}
+%
+\[
+  \downset{a} = \set{ b \in A \given b \leq a } \quad
+  \upset{a}   = \set{ b \in A \given b \geq a }
+\]
+
+\section{Tuples (option \texttt{macros})}
+
+\begin{verbatim*}
+\[
+\tuple{1,2,3}\quad
+\pair{1}{2}\quad
+\triple{1}{2}{3}\quad
+\quadruple{1}{2}{3}{4}\quad
+\quintuple{1}{2}{3}{4}{5}\quad
+\sextuple{1}{2}{3}{4}{5}{6}
+\]
+\end{verbatim*}
+%
+\[
+  \tuple{1,2,3} \quad
+  \pair{1}{2} \quad
+  \triple{1}{2}{3} \quad
+  \quadruple{1}{2}{3}{4} \quad
+  \quintuple{1}{2}{3}{4}{5} \quad
+  \sextuple{1}{2}{3}{4}{5}{6}
+\]
+
+\section{Categories (option \texttt{macros})}
+
+\begin{verbatim*}
+\[
+\Cat[C]\quad
+\Fun[F]\quad
+\CAT\quad
+\SET\quad
+\EM[\Cat][\Fun[M]]\quad
+\Kl[\Cat][\Fun[M]]
+\]
+\end{verbatim*}
+%
+\[
+  \Cat[C] \quad
+  \Fun[F] \quad
+  \CAT \quad
+  \SET \quad
+  \EM[\Cat][\Fun[M]] \quad
+  \Kl[\Cat][\Fun[M]]
+\]
+
+\begin{verbatim*}
+\[
+\Arrow[\Cat]\quad
+\Alg{\Fun}\quad
+\CoAlg{\Fun}\quad
+\Comma[\Cat][\Fun]\quad
+\Slice[\Cat][X]\quad
+\Coslice[\Cat][X]\quad
+\Over[\Cat][X]\quad
+\Under[\Cat][X]\quad
+\Psh[\Cat]\quad
+\Sh[\Cat][J]\quad
+\Elts[\Fun]\quad
+\Id
+\]
+\end{verbatim*}
+%
+\[
+  \Arrow[\Cat] \quad
+  \Alg{\Fun} \quad
+  \CoAlg{\Fun} \quad
+  \Comma[\Cat][\Fun] \quad
+  \Slice[\Cat][X] \quad
+  \Coslice[\Cat][X] \quad
+  \Over[\Cat][X] \quad
+  \Under[\Cat][X] \quad
+  \Psh[\Cat] \quad
+  \Sh[\Cat][J] \quad
+  \Elts[\Fun] \quad
+  \Id
+\]
+
+\begin{verbatim*}
+\begin{gather*}
+A\to B\quad
+B\from A\\
+A\toto B\quad
+B\fromfrom A\\
+A\monoto B\quad
+B\monofrom A\\
+A\epito B\quad
+B\epifrom A\\
+A\iso B\quad
+A\isoto B\quad
+B\isofrom A\\
+A\equ B\quad
+A\equivto B\quad
+B\equivfrom A\\
+A\embeds B
+\end{gather*}
+\end{verbatim*}
+%
+\begin{gather*}
+  A \to B \quad
+  B \from A \\
+  A \toto B \quad
+  B \fromfrom A \\
+  A \monoto B \quad
+  B \monofrom A \\
+  A \epito B \quad
+  B \epifrom A \\
+  A \iso B \quad
+  A \isoto B \quad
+  B \isofrom A \\
+  A \equ B \quad
+  A \equivto B \quad
+  B \equivfrom A \\
+  A \embeds B
+\end{gather*}
+
+\begin{verbatim*}
+\[
+F\natto G\quad
+G\natfrom F\quad
+F\natiso G\quad
+F\natisoto G\quad
+G\natisofrom F
+\]
+\end{verbatim*}
+%
+\[
+  F \natto G \quad
+  G \natfrom F \quad
+  F \natiso G \quad
+  F \natisoto G \quad
+  G \natisofrom F
+\]
+
+\begin{verbatim*}
+\[
+F\pseudoto G\quad
+G\pseudofrom F
+\]
+\end{verbatim*}
+%
+\[
+  F \pseudoto G \quad
+  G \pseudofrom F
+\]
+
+\begin{verbatim*}
+\[
+\dom{f}\quad
+\cod{g}\quad
+g\after f\quad
+f\then g
+\]
+\end{verbatim*}
+%
+\[
+  \dom{f} \quad
+  \cod{g} \quad
+  g \after f \quad
+  f \then g
+\]
+
+\begin{verbatim*}
+\[
+\begin{tikzcd}\Init\rar{\init}&A\end{tikzcd}\quad
+\begin{tikzcd}A\rar{\term}&\Term\end{tikzcd}
+\]
+\end{verbatim*}
+%
+\[
+  \begin{tikzcd}\Init \rar{\init} & A\end{tikzcd} \quad
+  \begin{tikzcd}A \rar{\term} & \Term\end{tikzcd}
+\]
+
+\begin{verbatim*}
+\[
+\begin{tikzcd}A+B\rar{\copair{f}{g}}&C\end{tikzcd}\quad
+\begin{tikzcd}C\rar{\pair{f}{g}}&A\times B\end{tikzcd}
+\]
+\end{verbatim*}
+%
+\[
+  \begin{tikzcd}A + B \rar{\copair{f}{g}} & C\end{tikzcd} \quad
+  \begin{tikzcd}C \rar{\pair{f}{g}} & A \times B\end{tikzcd}
+\]
+
+\begin{verbatim*}
+\[
+\begin{tikzcd}A\rar{\inj_{1}}&\po{A}[C]{B}&\lar[swap]{\inj_{2}}B\end{tikzcd}\quad
+\begin{tikzcd}A&\lar[swap]{\prj_{1}}\pb{A}[C]{B}\rar{\prj_{2}}&B\end{tikzcd}
+\]
+\end{verbatim*}
+%
+\[
+  \begin{tikzcd}A \rar{\inj_{1}} & \po{A}[C]{B} & \lar[swap]{\inj_{2}} B\end{tikzcd} \quad
+  \begin{tikzcd}A & \lar[swap]{\prj_{1}} \pb{A}[C]{B} \rar{\prj_{2}} & B\end{tikzcd}
+\]
+
+\begin{verbatim*}
+\[\res[P][X]{p}[Y]{f}\in P(Y)\]
+\end{verbatim*}
+%
+\[\res[P][X]{p}[Y]{f} \in P(Y)\]
+\end{document}

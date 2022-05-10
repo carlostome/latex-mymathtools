@@ -1,0 +1,42 @@
+\documentclass{easychair}
+
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[bracketed=]{mymathtools} % \DeclarePairedDelimiter, \hole
+
+\makeatletter
+\DeclareFontEncoding{LS1}{}{}
+\DeclareFontEncoding{LS2}{}{\@noaccents} % Local other Symbol encoding 2
+\makeatother
+\DeclareFontSubstitution{LS1}{stix2}{m}{n} % fallback for LS1, ls2stix2.fd
+\DeclareFontSubstitution{LS2}{stix2}{m}{n} % fallback for LS2, ls2stix2.fd
+\DeclareSymbolFont{ls1stix2}  {LS1}{stix2}    {m}{it} % ls1stix2.fd
+\DeclareSymbolFont{ls1stix2bb}{LS1}{stix2bb}  {m}{n}  % ls1stix2bb.fd
+\DeclareSymbolFont{ls1stix2fr}{LS1}{stix2frak}{m}{n}  % ls1stix2frak.fd
+\DeclareSymbolFont{ls2stix2ex}{LS2}{stix2ex}  {m}{n}  % ls2stix2ex.fd
+\DeclareSymbolFont{ls2stix2tt}{LS2}{stix2tt}  {m}{n}  % ls2stix2tt.fd
+\DeclareSymbolFontAlphabet{\mymathbb}{ls1stix2bb}
+\DeclareMathSymbol   {\vDash}        {\mathrel}  {ls1stix2}  {"F5}
+\DeclareMathSymbol   {\boxdiag}      {\mathbin}  {ls1stix2fr}{"B3}
+\DeclareMathSymbol   {\blacklozenge} {\mathord}  {ls1stix2fr}{"DA}
+\DeclareMathSymbol   {\simrightarrow}{\mathrel}  {ls2stix2tt}{"20}
+\DeclareMathSymbol   {\square}       {\mathord}  {ls2stix2tt}{"9A}
+\DeclareMathDelimiter{\llbracket}    {\mathopen} {ls2stix2ex}{"E0}{ls2stix2ex}{"06}
+\DeclareMathDelimiter{\rrbracket}    {\mathclose}{ls2stix2ex}{"E1}{ls2stix2ex}{"07}
+
+\begin{document}
+
+\[ \mathtt{tt}\quad
+   \mathsf{sf}\quad
+   \mathit{it}\quad
+   \mathcal{C}\quad
+   \mathnormal{n}\quad
+   \mathbf{bf}\quad
+   \mathrm{rm}\quad
+   \mathbb{B}\quad
+   \constructorfont{constr}\quad
+   \typefont{type}\quad
+   \termfont{term}\quad
+\]
+
+\end{document}
