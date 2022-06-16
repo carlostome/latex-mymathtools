@@ -305,6 +305,7 @@
   % Sets
 
   \providecommand\given{}
+  \DeclarePairedDelimiterX\class[1]\lbrace\rbrace{\def\given{\;\delimsize\vert\;}#1}
   \DeclarePairedDelimiterX\set[1]\lbrace\rbrace{\def\given{\;\delimsize\vert\;}#1}
 
   \NewDocumentCommand{\Powerset}{}{\mymathop{\mathcal{P}}}
