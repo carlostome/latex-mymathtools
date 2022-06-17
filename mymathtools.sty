@@ -330,7 +330,8 @@
   % Tuples
 
   \DeclarePairedDelimiterX\tuple      [1]     {\lparen}{\rparen}{#1}
-  \NewDocumentCommand     {\pair}     {mm}    {\tuple{#1,#2}}
+  \NewDocumentCommand     {\pair}     {}      {\couple}
+  \NewDocumentCommand     {\couple}   {mm}    {\tuple{#1,#2}}
   \NewDocumentCommand     {\triple}   {mmm}   {\tuple{#1,#2,#3}}
   \NewDocumentCommand     {\quadruple}{mmmm}  {\tuple{#1,#2,#3,#4}}
   \NewDocumentCommand     {\quintuple}{mmmmm} {\tuple{#1,#2,#3,#4,#5}}
