@@ -69,6 +69,10 @@
 % normal text versions, i.e. no wrong symbol and/or wrong spacing, for
 % instance in the body of an operator name.
 
+\NewDocumentCommand{\myvar}{m}{%
+  {\newmcodes@ #1}
+}
+
 \NewDocumentCommand{\myconstant}{m}{%
   {\newmcodes@ #1}
 }
@@ -102,6 +106,18 @@
 %%%%%%%%%%%%%%%%
 % Math operators
 %%%%%%%%%%%%%%%%
+
+\ProvideDocumentCommand{\mathvarfont}{}{%
+  \mathit
+}
+\NewDocumentCommand{\mymathvar}{m}{%
+  \myvar{\mathvarfont{#1}}
+}
+\NewDocumentCommand{\DeclareMathVar}{mm}{%
+  \DeclareDocumentCommand{#1}{}{%
+    \mymathvar{#2}
+  }
+}
 
 \ProvideDocumentCommand{\mathconstantfont}{}{%
   \mathfont
