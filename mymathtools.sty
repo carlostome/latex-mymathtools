@@ -425,7 +425,7 @@
   \def\Over{\Slice}
   \def\Under{\Coslice}
   \NewDocumentCommand{\Psh}{O{\Cat}}{\widehat{#1}}
-  \NewDocumentCommand{\Sh}{O{\Cat}o}{\operatorname{Sh}(#1\IfValueT{#2}{,#2})}
+  \NewDocumentCommand{\Sh}{O{\Cat}o}{\mymathoperator{Sh}(#1\IfValueT{#2}{,#2})}
   \NewDocumentCommand{\Elts}{O{\Fun}}{\int #1}
 
   \NewDocumentCommand{\Id}{}{\Fun[\mathfont{Id}]}
