@@ -338,9 +338,13 @@
 
   \DeclareMathInfix{\inter}{\cap}
   \DeclareMathInfix{\union}{\cup}
+  \DeclareMathPostfix{\Succ}{+1}
 
   \DeclareMathConstant{\false}{\Zero}
   \DeclareMathConstant{\true}{\One}
+
+  \DeclareMathConstant{\zero}{\Zero}
+  \DeclareDocumentCommand{\succ}{}{\Succ}
 
   \NewDocumentCommand{\Bools}{}{\Two}
   \NewDocumentCommand{\Ints}{}{\mathbb{Z}}
