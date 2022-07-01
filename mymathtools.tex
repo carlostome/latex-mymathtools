@@ -15,9 +15,9 @@
 \DeclareMathOperator{\eval}{eval}
 \DeclareMathInfix{\comp}{;}
 
-\DeclareTermConstant{\true}{true}
-\DeclareTermOperator{\app}{app}
-\DeclareTermInfix{\conj}{\wedge}
+\DeclareTermConstant{\trueTm}{true}
+\DeclareTermOperator{\appTm}{app}
+\DeclareTermInfix{\conjTm}{\wedge}
 
 \DeclareTypeConstant{\Bool}{Bool}
 \DeclareTypeOperator{\T}{T}
@@ -277,57 +277,57 @@ x \cons xs
 \begin{verbatim*}
 \def\termfont{\mathbf}
 
-\DeclareTermConstant{\true}{true}
-\DeclareTermOperator{\app}{app}
-\DeclareTermInfix{\conj}{\wedge}
+\DeclareTermConstant{\trueTm}{true}
+\DeclareTermOperator{\appTm}{app}
+\DeclareTermInfix{\conjTm}{\wedge}
 \end{verbatim*}
 
 \begin{verbatim*}
 \[
-\app\quad
-\app{t}\quad
-\app{t,\true}\quad
-\app(t,\true)\quad
-\app{(t,\true)}\quad
-\app{(t,\true),(\app{u,v})}
+\appTm\quad
+\appTm{t}\quad
+\appTm{t,\trueTm}\quad
+\appTm(t,\trueTm)\quad
+\appTm{(t,\trueTm)}\quad
+\appTm{(t,\trueTm),(\appTm{u,v})}
 \]
 \end{verbatim*}
 %
 \[
-  \app              \quad
-  \app{t}           \quad
-  \app{t,\true}     \quad
-  \app(t,\true)     \quad
-  \app{(t,\true)} \quad
-  \app{(t,\true),(\app{u,v})}
+  \appTm              \quad
+  \appTm{t}           \quad
+  \appTm{t,\trueTm}   \quad
+  \appTm(t,\trueTm)   \quad
+  \appTm{(t,\trueTm)} \quad
+  \appTm{(t,\trueTm),(\appTm{u,v})}
 \]
 
 \begin{verbatim*}
 \[
-\app^{A_1\times A_2}{t}\quad
-\app_{B_1\times B_2}{t}\quad
-\app^A_B{t}\quad
-\app_B^A{t}
+\appTm^{A_1\times A_2}{t}\quad
+\appTm_{B_1\times B_2}{t}\quad
+\appTm^A_B{t}\quad
+\appTm_B^A{t}
 \]
 \end{verbatim*}
 %
 \[
-  \app^{A_1 \times A_2}{t} \quad
-  \app_{B_1 \times B_2}{t} \quad
-  \app^A_B{t}              \quad
-  \app_B^A{t}
+  \appTm^{A_1 \times A_2}{t} \quad
+  \appTm_{B_1 \times B_2}{t} \quad
+  \appTm^A_B{t}              \quad
+  \appTm_B^A{t}
 \]
 
 \begin{verbatim*}
 \[
-\app \circ \app\quad
-x \conj y
+\appTm\circ\appTm\quad
+x\conjTm y
 \]
 \end{verbatim*}
 %
 \[
-  \app \circ \app\quad
-  x \conj y
+  \appTm \circ \appTm \quad
+  x \conjTm y
 \]
 
 \begin{verbatim*}
@@ -385,7 +385,12 @@ x\mathrel{R}y\coloniff\varphi(x,y)\quad
 \Zero =\set{}\quad
 \One =\set{\Zero}\quad
 \Two =\set{\Zero,\One}\quad
-\Powerset(X)=\set{Y\subseteq X}\quad
+\Bools =\set{\false,\true}
+\]
+\[
+\Powerset(X)=\set{Y\subseteq X}
+\]
+\[
 \Nats =\set{\Zero,\One,\Two,\ldots}\quad
 \Ints =\Quot{(\Two\times\Nats)}{{\sim}}\quad
 \Rats =\Quot{(\Ints\times\Ints\setminus\set{0})}{{\sim}}
@@ -393,10 +398,15 @@ x\mathrel{R}y\coloniff\varphi(x,y)\quad
 \end{verbatim*}
 %
 \[
-  \Zero        = \set{ } \quad
-  \One         = \set{ \Zero } \quad
+  \Zero        = \set{ }             \quad
+  \One         = \set{ \Zero }       \quad
   \Two         = \set{ \Zero, \One } \quad
-  \Powerset(X) = \set{ Y \subseteq X } \quad
+  \Bools       = \set{ \false, \true }
+\]
+\[
+  \Powerset(X) = \set{ Y \subseteq X }
+\]
+\[
   \Nats        = \set{ \Zero, \One, \Two,\ldots } \quad
   \Ints        = \Quot{(\Two  \times \Nats)}{{\sim}} \quad
   \Rats        = \Quot{(\Ints \times \Ints \setminus \set{ 0 })}{{\sim}}
