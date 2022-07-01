@@ -90,6 +90,15 @@
   \mathrel{\newmcodes@ #1}
 }
 
+\NewDocumentCommand{\mypostfix}{msG{\hole}}{%
+    \IfBooleanTF{#2}{%
+      (#3)
+    }{%
+      #3\juxtapositionspace
+    }%
+    {\newmcodes@ #1}
+}
+
 %%%%%%%%%%%%%%%%
 % Math operators
 %%%%%%%%%%%%%%%%
@@ -138,6 +147,18 @@
 \NewDocumentCommand{\DeclareMathInfix}{mm}{%
   \DeclareDocumentCommand{#1}{}{%
     \mymathinfix{#2}
+  }
+}
+
+\ProvideDocumentCommand{\mathpostfixfont}{}{%
+  \mathfont
+}
+\NewDocumentCommand{\mymathpostfix}{m}{%
+  \mypostfix{\mathpostfixfont{#1}}
+}
+\NewDocumentCommand{\DeclareMathPostfix}{mm}{%
+  \DeclareDocumentCommand{#1}{}{
+    \mymathpostfix{#2}
   }
 }
 
