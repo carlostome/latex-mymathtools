@@ -38,7 +38,13 @@
 \def\@csname{\expandafter\@gobble\string} % see \MH_cs_to_str:N (from mhsetup)
 \DeclareDocumentCommand{\DeclarePairedDelimiter}{mmm}{% like \DeclarePairedDelimiter but with optional argument still given inside group tokens
   \expandafter\origDeclarePairedDelimiter\csname orig\@csname#1 \endcsname{#2}{#3}
-  \NewDocumentCommand{#1}{G{\hole}}{\csname orig\@csname#1 \endcsname{##1}}
+  \NewDocumentCommand{#1}{sG{\hole}}{%
+    \IfBooleanTF{##1}{%
+      \csname orig\@csname#1 \endcsname*{##2}
+    }{%
+      \csname orig\@csname#1 \endcsname{##2}
+    }
+  }
   % XXX: the above should be equivalent to what actually loops
   % (surprisingly, \orig\@csname#1 expands to \protect#1 after the
   % \let declaration)
