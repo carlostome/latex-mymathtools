@@ -407,13 +407,21 @@ x\mathrel{R}y\coloniff\varphi(x,y)\quad
 \begin{verbatim*}
 \[
 X\inter Y=\set{Z\given Z\in X\land Z\in Y}\quad
-X\union Y=\set{Z\given Z\in X\lor Z\in Y}
+\Inter{\mathcal{X}}=\set{Z\given\forall X\in\mathcal{X}.\,Z\in X}
+\]
+\[
+X\union Y=\set{Z\given Z\in X\lor Z\in Y}\quad
+\Union{\mathcal{X}}=\set{Z\given\exists X\in\mathcal{X}.\,Z\in X}
 \]
 \end{verbatim*}
 %
 \[
   X \inter Y = \set{ Z \given Z \in X \land Z \in Y } \quad
-  X \union Y = \set{ Z \given Z \in X \lor  Z \in Y }
+  \Inter{\mathcal{X}} = \set{ Z \given \forall X \in \mathcal{X}.\,Z \in X }
+\]
+\[
+  X \union Y = \set{ Z \given Z \in X \lor Z \in Y } \quad
+  \Union{\mathcal{X}} = \set{ Z \given \exists X \in \mathcal{X}.\,Z \in X }
 \]
 
 \begin{verbatim*}
