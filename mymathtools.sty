@@ -351,6 +351,13 @@
   \NewDocumentCommand{\lEQ}{}{=}
   \NewDocumentCommand{\lNEQ}{}{\neq}
 
+  \NewDocumentCommand{\entailsSem}{}{\vDash}
+  \NewDocumentCommand{\entailsSyn}{}{\vdash}
+  \NewDocumentCommand{\forces}{}{\models}
+  \NewDocumentCommand{\proves}{}{\entailsSyn}
+  \NewDocumentCommand{\satisfies}{}{\models}
+  \NewDocumentCommand{\validates}{}{\entailsSem}
+
   \ifmymathtools@stixtwo % \lbox, \lboxdot, \ldia
     \NewDocumentCommand{\lbox}{}{\square}
     \NewDocumentCommand{\lboxdot}{}{\mathord{\boxdot}} % \boxdot is a binary operator symbol (class 2)

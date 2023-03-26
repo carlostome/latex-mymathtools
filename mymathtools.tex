@@ -410,18 +410,30 @@ t\lNEQ u
 \section{Misc (option \texttt{macros})}
 
 \begin{verbatim*}
-\[
-x\mathrel{R}y\coloniff\varphi(x,y)\quad
-\Mod[M]\vDash T\quad
+\begin{gather*}
+x\mathrel{R}y\coloniff\varphi(x,y)\\
+\Gamma\entailsSem\varphi\quad
+\Gamma\entailsSyn\varphi\quad
+\Mod[M]\forces\varphi\quad
+\mathsf{PA}\proves\varphi\quad
+\Mod[M]\satisfies\varphi\quad
+\mathsf{PA}\validates\varphi\quad
+\Nats\validates\varphi\\
 (\lforall x.\,\varphi)\limp\Subst{t}[x]{\varphi}
-\]
+\end{gather*}
 \end{verbatim*}
 %
-\[
-  x \mathrel{R} y \coloniff \varphi(x,y) \quad
-  \Mod[M] \vDash T \quad
+\begin{gather*}
+  x \mathrel{R} y \coloniff \varphi(x,y) \\
+  \Gamma \entailsSem \varphi \quad
+  \Gamma \entailsSyn \varphi \quad
+  \Mod[M] \forces \varphi \quad
+  \mathsf{PA} \proves \varphi \quad
+  \Mod[M] \satisfies \varphi \quad
+  \mathsf{PA} \validates \varphi \quad
+  \Nats \validates \varphi \\
   (\lforall x.\,\varphi) \limp \Subst{t}[x]{\varphi}
-\]
+\end{gather*}
 
 \section{Sets (option \texttt{macros})}
 
