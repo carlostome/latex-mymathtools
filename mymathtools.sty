@@ -376,9 +376,12 @@
 
   % Misc
 
+  \NewDocumentCommand{\AND}{}{\mathbin{\&}}
   \NewDocumentCommand{\coloniff}{}{% see \coloneqq (from mathtools)
     \vcentcolon\mathrel{\mkern-1.2mu}\Leftrightarrow%
   }
+  \NewDocumentCommand{\NOT}{}{\neg}
+  \NewDocumentCommand{\OR}{}{\lor}
 
   \NewDocumentCommand{\Mod}{O{M}}{\mathcal{#1}}
 
