@@ -366,20 +366,61 @@ f\$a\$b
   f\$a\$b
 \]
 
+\section{Logic (option \texttt{macros})}
+
+\begin{verbatim*}
+\begin{gather*}
+\lfalse\quad
+\ltrue\\
+\lbox\varphi\quad
+\lboxdot\varphi\coloneqq\varphi\land\lbox\varphi\quad
+\ldia\varphi\quad
+\lneg\varphi\\
+\varphi\lbiimp\psi\coloneqq(\varphi\limp\psi)\land(\psi\limp\varphi)\quad
+\varphi\limp\psi\\
+\Land_{i}\varphi_{i}\quad
+\Lor_{i}\varphi_{i}\\
+\lexists x.\,\varphi\quad
+\lexistsUnq x.\,\varphi\coloneqq
+ (\lexists x.\,\varphi)\land\lforall y.\,\Subst{y}[x]{\varphi}\limp y\lEQ x\quad
+\lforall x.\,\varphi\\
+t\lEQ u\quad
+t\lNEQ u
+\end{gather*}
+\end{verbatim*}
+%
+\begin{gather*}
+  \lfalse \quad
+  \ltrue \\
+  \lbox\varphi \quad
+  \lboxdot\varphi \coloneqq \varphi \land \lbox\varphi \quad
+  \ldia\varphi \quad
+  \lneg\varphi \\
+  \varphi \lbiimp \psi \coloneqq (\varphi \limp \psi) \land (\psi \limp \varphi) \quad
+  \varphi \limp \psi \\
+  \Land_{i} \varphi_{i} \quad
+  \Lor_{i} \varphi_{i} \\
+  \lexists x.\,\varphi \quad
+  \lexistsUnq x.\,\varphi \coloneqq (\lexists x.\,\varphi) \land \lforall y.\,\Subst{y}[x]{\varphi} \limp y \lEQ x \quad
+  \lforall x.\,\varphi \\
+  t \lEQ u \quad
+  t \lNEQ u
+\end{gather*}
+
 \section{Misc (option \texttt{macros})}
 
 \begin{verbatim*}
 \[
 x\mathrel{R}y\coloniff\varphi(x,y)\quad
 \Mod[M]\vDash T\quad
-(\forall x.\,\varphi)\rightarrow\Subst{t}[x]{\varphi}
+(\lforall x.\,\varphi)\limp\Subst{t}[x]{\varphi}
 \]
 \end{verbatim*}
 %
 \[
   x \mathrel{R} y \coloniff \varphi(x,y) \quad
   \Mod[M] \vDash T \quad
-  (\forall x.\,\varphi) \rightarrow \Subst{t}[x]{\varphi}
+  (\lforall x.\,\varphi) \limp \Subst{t}[x]{\varphi}
 \]
 
 \section{Sets (option \texttt{macros})}

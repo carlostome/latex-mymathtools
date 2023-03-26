@@ -337,6 +337,36 @@
 \ifmymathtools@macros
   \newcommand\mymathtools@missingsymbol[2]{\text{\bf MISSING in #1: #2}}
 
+  % Logic
+  \NewDocumentCommand{\lfalse}{}{\bot}
+  \NewDocumentCommand{\ltrue}{}{\top}
+  \NewDocumentCommand{\lneg}{}{\neg}
+  \NewDocumentCommand{\lbiimp}{}{\leftrightarrow}
+  \NewDocumentCommand{\limp}{}{\rightarrow}
+  \NewDocumentCommand{\Land}{}{\bigwedge}
+  \NewDocumentCommand{\Lor}{}{\bigvee}
+  \NewDocumentCommand{\lexists}{}{\exists}
+  \NewDocumentCommand{\lexistsUnq}{}{\exists!}
+  \NewDocumentCommand{\lforall}{}{\forall}
+  \NewDocumentCommand{\lEQ}{}{=}
+  \NewDocumentCommand{\lNEQ}{}{\neq}
+
+  \ifmymathtools@stixtwo % \lbox, \lboxdot, \ldia
+    \NewDocumentCommand{\lbox}{}{\square}
+    \NewDocumentCommand{\lboxdot}{}{\mathord{\boxdot}} % \boxdot is a binary operator symbol (class 2)
+    \NewDocumentCommand{\ldia}{}{\lozenge}
+  \else
+    \ifmymathtools@amssymb
+      \NewDocumentCommand{\lbox}{}{\square}
+      \NewDocumentCommand{\lboxdot}{}{\mathord{\boxdot}} % \boxdot is a binary operator symbol (class 2)
+      \NewDocumentCommand{\ldia}{}{\lozenge}
+    \else
+      \NewDocumentCommand{\lbox}{}{\mymathtools@missingsymbol{\LaTeX}{\textbackslash{}square}}
+      \NewDocumentCommand{\lboxdot}{}{\mymathtools@missingsymbol{\LaTeX}{\textbackslash{}boxdot}}
+      \NewDocumentCommand{\ldia}{}{\mymathtools@missingsymbol{\LaTeX}{\textbackslash{}lozenge}}
+    \fi
+  \fi
+
   % Misc
 
   \NewDocumentCommand{\coloniff}{}{% see \coloneqq (from mathtools)
