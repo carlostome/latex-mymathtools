@@ -371,13 +371,15 @@ f\$a\$b
 \begin{verbatim*}
 \[
 x\mathrel{R}y\coloniff\varphi(x,y)\quad
-\Mod[M]\vDash T
+\Mod[M]\vDash T\quad
+(\forall x.\,\varphi)\rightarrow\Subst{t}[x]{\varphi}
 \]
 \end{verbatim*}
 %
 \[
   x \mathrel{R} y \coloniff \varphi(x,y) \quad
-  \Mod[M] \vDash T
+  \Mod[M] \vDash T \quad
+  (\forall x.\,\varphi) \rightarrow \Subst{t}[x]{\varphi}
 \]
 
 \section{Sets (option \texttt{macros})}

@@ -345,6 +345,8 @@
 
   \NewDocumentCommand{\Mod}{O{M}}{\mathcal{#1}}
 
+  \NewDocumentCommand{\Subst}{mom}{#3\lbrack #1\IfValueT{#2}{/#2}\rbrack}
+
   % Sets
 
   \providecommand\given{}
