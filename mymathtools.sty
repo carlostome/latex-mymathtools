@@ -351,7 +351,15 @@
   \NewDocumentCommand{\lEQ}{}{=}
   \NewDocumentCommand{\lNEQ}{}{\neq}
 
-  \NewDocumentCommand{\entailsSem}{}{\vDash}
+  \ifmymathtools@stixtwo % \entailsSem
+    \NewDocumentCommand{\entailsSem}{}{\vDash}
+  \else
+    \ifmymathtools@amssymb
+      \NewDocumentCommand{\entailsSem}{}{\vDash}
+    \else
+      \NewDocumentCommand{\entailsSem}{}{\mymathtools@missingsymbol{\LaTeX}{\textbackslash{}vDash}}
+    \fi
+  \fi
   \NewDocumentCommand{\entailsSyn}{}{\vdash}
   \NewDocumentCommand{\forces}{}{\models}
   \NewDocumentCommand{\proves}{}{\entailsSyn}
