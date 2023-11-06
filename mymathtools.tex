@@ -7,6 +7,8 @@
 
 \renewcommand\juxtapositionspace{\;}
 \renewcommand\hole{\cdot}
+\renewcommand\classseparator{\mathord{:}}
+\renewcommand\setseparator{\delimsize\vert}
 \def\termfont{\mathbf}
 
 \DeclarePairedDelimiter\interpret\llbracket\rrbracket
@@ -449,6 +451,8 @@ x\mathrel{R}y\coloniff\varphi(x,y)\quad
 
 \begin{verbatim*}
 \[
+\renewcommand\classseparator{\mathord{:}}
+
 \class{x\given x\not\in x}
 \]
 \end{verbatim*}
@@ -459,6 +463,8 @@ x\mathrel{R}y\coloniff\varphi(x,y)\quad
 
 \begin{verbatim*}
 \[
+\renewcommand\setseparator{\delimsize\vert}
+
 \set{1,2,3}\quad
 \set{x\in X\given\phi(x)}
 \]

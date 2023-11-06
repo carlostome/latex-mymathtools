@@ -397,9 +397,11 @@
 
   % Sets
 
+  \ProvideDocumentCommand{\classseparator}{}{\setseparator}
+  \ProvideDocumentCommand{\setseparator}{}{\delimsize\vert}
   \providecommand\given{}
-  \DeclarePairedDelimiterX\class[1]\lbrace\rbrace{\def\given{\;\delimsize\vert\;}#1}
-  \DeclarePairedDelimiterX\set[1]\lbrace\rbrace{\def\given{\;\delimsize\vert\;}#1}
+  \DeclarePairedDelimiterX\class[1]\lbrace\rbrace{\def\given{\;\classseparator\;}#1}
+  \DeclarePairedDelimiterX\set[1]\lbrace\rbrace{\def\given{\;\setseparator\;}#1}
 
   \NewDocumentCommand{\Powerset}{}{\mymathop{\mathcal{P}}}
 
