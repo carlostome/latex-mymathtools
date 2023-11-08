@@ -473,6 +473,23 @@
   \NewDocumentCommand{\bquintuple}{mmmmm} {\btuple{#1,#2,#3,#4,#5}}
   \NewDocumentCommand{\bsextuple} {mmmmmm}{\btuple{#1,#2,#3,#4,#5,#6}}
 
+  % Lists
+
+  \DeclarePairedDelimiterX\lst[1]{[}{]}{#1}
+
+  \DeclareMathConstant{\nil}{\lst{}}
+
+  \DeclareMathInfix{\cons}{:}
+  \DeclareMathInfix{\snoc}{:}
+  \DeclareMathInfix{\conc}{++}
+
+  \DeclareMathOperator{\core}  {core}
+  \DeclareMathOperator{\head}  {head}
+  \DeclareMathOperator{\last}  {last}
+  \DeclareMathOperator{\length}{length}
+  \DeclareMathOperator{\tail}  {tail}
+  \DeclareMathOperator{\trunk} {trunk}
+
   % Categories
 
   \@ifpackageloaded{lazylist}{%

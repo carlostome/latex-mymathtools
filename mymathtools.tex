@@ -25,9 +25,9 @@
 \DeclareTypeOperator{\T}{T}
 \DeclareTypeInfix{\Sum}{+}
 
-\DeclareConstructorConstant{\tt}{tt}
-\DeclareConstructorOperator{\return}{return}
-\DeclareConstructorInfix{\cons}{\dblcolon}
+\DeclareConstructorConstant{\ttCon}{tt}
+\DeclareConstructorOperator{\returnCon}{return}
+\DeclareConstructorInfix{\consCon}{\dblcolon}
 
 \begin{document}
 \title{\texttt{mymathtools} Sample Document}
@@ -187,57 +187,57 @@ f \comp g
 \begin{verbatim*}
 \def\constructorfont{\mathsf}
 
-\DeclareConstructorConstant{\tt}{tt}
-\DeclareConstructorOperator{\return}{return}
-\DeclareConstructorInfix{\cons}{\dblcolon}
+\DeclareConstructorConstant{\ttCon}{tt}
+\DeclareConstructorOperator{\returnCon}{return}
+\DeclareConstructorInfix{\consCon}{\dblcolon}
 \end{verbatim*}
 
 \begin{verbatim*}
 \[
-\return\quad
-\return{t}\quad
-\return{t,\tt}\quad
-\return(t,\tt)\quad
-\return{{(t,\tt)}}\quad
-\return{(t,\tt),(\return{u,v})}
+\returnCon\quad
+\returnCon{t}\quad
+\returnCon{t,\ttCon}\quad
+\returnCon(t,\ttCon)\quad
+\returnCon{{(t,\ttCon)}}\quad
+\returnCon{(t,\ttCon),(\returnCon{u,v})}
 \]
 \end{verbatim*}
 %
 \[
-  \return            \quad
-  \return{t}         \quad
-  \return{t,\tt}     \quad
-  \return(t,\tt)     \quad
-  \return{{(t,\tt)}} \quad
-  \return{(t,\tt),(\return{u,v})}
+  \returnCon               \quad
+  \returnCon{t}            \quad
+  \returnCon{t,\ttCon}     \quad
+  \returnCon(t,\ttCon)     \quad
+  \returnCon{{(t,\ttCon)}} \quad
+  \returnCon{(t,\ttCon),(\returnCon{u,v})}
 \]
 
 \begin{verbatim*}
 \[
-\return^{A_1\times A_2}{t}\quad
-\return_{B_1\times B_2}{t}\quad
-\return^A_B{t}\quad
-\return_B^A{t}
+\returnCon^{A_1\times A_2}{t}\quad
+\returnCon_{B_1\times B_2}{t}\quad
+\returnCon^A_B{t}\quad
+\returnCon_B^A{t}
 \]
 \end{verbatim*}
 %
 \[
-  \return^{A_1 \times A_2}{t} \quad
-  \return_{B_1 \times B_2}{t} \quad
-  \return^A_B{t}              \quad
-  \return_B^A{t}
+  \returnCon^{A_1 \times A_2}{t} \quad
+  \returnCon_{B_1 \times B_2}{t} \quad
+  \returnCon^A_B{t}              \quad
+  \returnCon_B^A{t}
 \]
 
 \begin{verbatim*}
 \[
-\return \circ \return\quad
-x \cons xs
+\returnCon \circ \returnCon\quad
+x \consCon xs
 \]
 \end{verbatim*}
 %
 \[
-  \return \circ \return\quad
-  x \cons xs
+  \returnCon \circ \returnCon\quad
+  x \consCon xs
 \]
 
 \section{Type operators}
@@ -595,6 +595,70 @@ X\rar{\quot}&\Quot{X}{{\sim}}
   \quadruple{1}{2}{3}{4} \quad
   \quintuple{1}{2}{3}{4}{5} \quad
   \sextuple{1}{2}{3}{4}{5}{6}
+\]
+
+\section{Lists (option \texttt{macros})}
+
+\begin{verbatim*}
+\[
+\nil\quad
+a\cons\alpha\quad
+\alpha\snoc a
+\]
+\end{verbatim*}
+%
+\[
+  \nil                \quad
+  a      \cons \alpha \quad
+  \alpha \snoc a
+\]
+
+\begin{verbatim*}
+\[
+\alpha=\head(\alpha)\cons\tail(\alpha)
+=\trunk(\alpha)\snoc\last(\alpha)
+=\head(\alpha)\cons\core(\alpha)\snoc\last(\alpha)
+\]
+\end{verbatim*}
+%
+\[
+  \alpha = \head(\alpha)  \cons \tail(\alpha)
+         = \trunk(\alpha) \snoc \last(\alpha)
+         = \head(\alpha)  \cons \core(\alpha) \snoc \last(\alpha)
+\]
+
+\begin{verbatim*}
+\[
+\lst{a,b,c}=a\cons b\cons c\cons\nil
+\]
+\end{verbatim*}
+%
+\[
+  \lst{ a, b, c } = a \cons b \cons c \cons \nil
+\]
+
+\begin{verbatim*}
+\[
+\nil\conc\alpha=\alpha\quad
+(a\cons\alpha)\conc\beta=a\cons(\alpha\conc\beta)
+\]
+\end{verbatim*}
+%
+\[
+  \nil             \conc \alpha = \alpha \quad
+  (a \cons \alpha) \conc \beta  = a \cons (\alpha \conc \beta)
+\]
+
+\begin{verbatim*}
+\[
+\length(\nil)=0\quad
+\length(a\cons\alpha)=1+\length(\alpha)
+\]
+\end{verbatim*}
+%
+\[
+  \length(\nil)           = 0 \quad
+  \length(a \cons \alpha) = 1 + \length(\alpha)
 \]
 
 \section{Categories (option \texttt{macros})}
