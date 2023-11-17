@@ -335,6 +335,7 @@
 }
 
 \ifmymathtools@macros
+  \newcommand\mymathtools@missingfont  [2]{\text{\bf MISSING in #1: #2}}
   \newcommand\mymathtools@missingsymbol[2]{\text{\bf MISSING in #1: #2}}
 
   % Logic
@@ -425,9 +426,21 @@
   \DeclareDocumentCommand{\succ}{}{\Succ}
 
   \NewDocumentCommand{\Bools}{}{\Two}
-  \NewDocumentCommand{\Ints}{}{\mathbb{Z}}
-  \NewDocumentCommand{\Nats}{}{\mathbb{N}}
-  \NewDocumentCommand{\Rats}{}{\mathbb{Q}}
+  \ifmymathtools@stixtwo % \Ints, \Nats, \Rats
+    \NewDocumentCommand{\Ints}{}{\mathbb{Z}}
+    \NewDocumentCommand{\Nats}{}{\mathbb{N}}
+    \NewDocumentCommand{\Rats}{}{\mathbb{Q}}
+  \else
+    \ifmymathtools@amssymb
+      \NewDocumentCommand{\Ints}{}{\mathbb{Z}}
+      \NewDocumentCommand{\Nats}{}{\mathbb{N}}
+      \NewDocumentCommand{\Rats}{}{\mathbb{Q}}
+    \else
+      \NewDocumentCommand{\Ints}{}{\mymathtools@missingfont{\LaTeX}{\textbackslash{}mathbb}}
+      \NewDocumentCommand{\Nats}{}{\mymathtools@missingfont{\LaTeX}{\textbackslash{}mathbb}}
+      \NewDocumentCommand{\Rats}{}{\mymathtools@missingfont{\LaTeX}{\textbackslash{}mathbb}}
+    \fi
+  \fi
 
   \NewDocumentCommand{\Quot}{mm}{#1/#2}
   \DeclarePairedDelimiter{\quot}{\lbrack}{\rbrack}
