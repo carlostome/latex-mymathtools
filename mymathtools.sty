@@ -538,6 +538,19 @@
   \def\Over{\Slice}
   \def\Under{\Coslice}
   \NewDocumentCommand{\Psh}{O{\Cat}}{\widehat{#1}}
+  \ifmymathtools@stixtwo % \CoPsh
+    \NewDocumentCommand{\CoPsh}{O{\Cat}}{\widecheck{#1}}
+  \else
+    \ifmymathtools@amssymb
+      \NewDocumentCommand{\CoPsh}{O{\Cat}}{%
+        \mymathtools@missingsymbol{amssymb}{\textbackslash{}widecheck}%
+      }
+    \else
+      \NewDocumentCommand{\CoPsh}{O{\Cat}}{%
+        \mymathtools@missingsymbol{\LaTeX}{\textbackslash{}widecheck}%
+      }
+    \fi
+  \fi
   \NewDocumentCommand{\Sh}{O{\Cat}o}{\mymathoperator{Sh}(#1\IfValueT{#2}{,#2})}
   \NewDocumentCommand{\Elts}{O{\Fun}}{\int #1}
 
